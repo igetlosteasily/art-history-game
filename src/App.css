@@ -1,0 +1,23 @@
+/* The page frame (DESIGN.md section 9): a centered column with room to
+   breathe, so the painting has a wall around it. */
+
+.app {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-9);
+  max-width: calc(var(--page-max) + 2 * var(--page-gutter));
+  margin: 0 auto;
+  padding: var(--space-5) var(--page-gutter) var(--space-12);
+}
+
+@media (max-width: 960px) {
+  .app {
+    gap: var(--space-4);
+  }
+}
+
+@media (max-width: 600px) {
+  .app {
+    padding-top: var(--space-2);
+  }
+}

@@ -40,6 +40,8 @@
   --lapis: #2F4A6D;
   /* Unvisited progress ticks: present but clearly "not yet" */
   --tick-future: rgba(34, 32, 28, 0.18);
+  /* A faint ink wash behind hovered quiet controls */
+  --wash: rgba(34, 32, 28, 0.07);
 
   /* ---------- Type (DESIGN.md section 4) ---------- */
 
@@ -91,6 +93,9 @@
   /* Hung: a framed work hangs off the wall, so its shadow is deeper and directional */
   --shadow-hung: 0 22px 44px -12px rgba(34, 32, 28, 0.38), 0 3px 8px rgba(34, 32, 28, 0.16);
   --shadow-hung-lifted: 0 40px 70px -20px rgba(34, 32, 28, 0.45), 0 6px 14px rgba(34, 32, 28, 0.16);
+  /* Ink buttons cast a soft shadow that deepens as they lift on hover */
+  --shadow-button: 0 14px 28px -14px rgba(34, 32, 28, 0.6);
+  --shadow-button-lifted: 0 20px 34px -14px rgba(34, 32, 28, 0.65);
 
   /* ---------- Glass (DESIGN.md section 6) ---------- */
 

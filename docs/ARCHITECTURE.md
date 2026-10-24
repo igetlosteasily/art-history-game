@@ -45,9 +45,12 @@ art-history-game/
     ├── lib/
     │   ├── rounds.js          Fair shuffling and dealing balanced rounds
     │   ├── rounds.test.js     Automatic checks that rounds are always fair
+    │   ├── round.js           Moving through the current round (next, deal again)
+    │   ├── images.js          Connects a painting to its web images (srcset, sizes)
     │   ├── grading.js         Checking typed answers (typos, accents, alternate names)
     │   ├── grading.test.js    Automatic checks for every grading example in the PRD
     │   └── useHashRoute.js    Reads the URL to decide which screen to show
+    │       (each logic file has a matching .test.js beside it)
     ├── components/
     │   ├── Header/            Header.jsx + Header.css
     │   ├── ArtworkStage/      Glow, spotlight, corner marks, the painting, zoom trigger
@@ -59,8 +62,10 @@ art-history-game/
     │   └── ZoomView/
     └── screens/
         ├── SortScreen.jsx
-        ├── IdentifyScreen.jsx
-        └── ReviewScreen.jsx
+        ├── IdentifyScreen.jsx     (M3; a placeholder until then)
+        ├── ReviewScreen.jsx       (M2; a placeholder until then)
+        ├── PlaceholderScreen.jsx  A calm note for screens not built yet
+        └── screens.css            The shared painting-and-label layout
 ```
 
 The arcade branch adds `src/lib/scoring.js` (+ tests), `src/screens/ChallengeScreen.jsx` and `ChallengeEndScreen.jsx`, arcade components (`Laurel`, `ScoreChips`, `SwiftLine`, `InitialsPlate`, `WallOfPatrons`, `Plaque`), `src/data/blocklist.js`, and `api/scores.js` (a serverless function that runs on Vercel's servers, not in the browser).

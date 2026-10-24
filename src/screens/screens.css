@@ -1,0 +1,74 @@
+/* Screen layouts (DESIGN.md section 9). */
+
+/* Painting and label side by side on wide screens. The huge flex-grow on the
+   painting column makes it take all spare width; when the window is too
+   narrow for both minimum widths, the label wraps underneath. One rule gives
+   both layouts with no breakpoint to keep in sync. */
+.screen--split {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--space-11);
+}
+
+.screen__art {
+  flex: 999 1 560px;
+  min-width: 0;
+}
+
+.screen__side {
+  flex: 1 1 340px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* Stacked: the label follows the painting closely, as one unit */
+@media (max-width: 960px) {
+  .screen--split {
+    gap: var(--space-4);
+  }
+}
+
+.screen--note {
+  display: flex;
+  justify-content: center;
+  padding-block: var(--space-12);
+}
+
+.placeholder {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-width: 34rem;
+  padding: var(--space-8);
+  border-radius: var(--radius-panel);
+}
+
+.placeholder__title {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: var(--size-title);
+  line-height: 1.08;
+}
+
+.placeholder__rule {
+  display: block;
+  width: 44px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.placeholder__link {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-family: var(--font-label);
+  font-size: var(--size-label);
+  font-weight: 600;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}

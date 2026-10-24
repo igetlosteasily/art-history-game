@@ -1,0 +1,62 @@
+/* Artwork stage (DESIGN.md sections 5 and 9). Never draws on the painting. */
+
+.artwork-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  /* A fixed-height wall on wide screens, so the label and buttons beside it
+     don't move when a tall portrait follows a wide landscape */
+  height: 660px;
+}
+
+.artwork-stage__spot {
+  position: absolute;
+  inset: -30px 8% auto;
+  height: 80%;
+  /* The spotlight is one of the three gradients DESIGN.md allows */
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 250, 236, 0.75), rgba(255, 250, 236, 0) 70%);
+  pointer-events: none;
+}
+
+.artwork-stage__painting {
+  position: relative;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 640px;
+  object-fit: contain;
+  /* Sharp art, soft furniture: a canvas edge, barely softened */
+  border-radius: var(--radius-art);
+  /* Hung: a framed work hangs off the wall, so its shadow is deep and directional */
+  box-shadow: var(--shadow-hung);
+  /* Like eyes focusing: in from a slight blur and a hair smaller (DESIGN.md 10.2) */
+  animation: artwork-arrive 800ms var(--ease-arrive) both;
+}
+
+@keyframes artwork-arrive {
+  from {
+    opacity: 0;
+    transform: scale(0.985);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+/* Phones and tablets stacked in one column: the painting sets its own height,
+   capped so the label still peeks into view below it */
+@media (max-width: 960px) {
+  .artwork-stage {
+    height: auto;
+    padding-block: var(--space-4);
+  }
+
+  .artwork-stage__painting {
+    max-height: 62vh;
+  }
+}

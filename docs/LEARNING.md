@@ -4,6 +4,30 @@ A running log of what changed in the app and why, written for Chase. Newest entr
 
 ---
 
+## October 24, 2026: The new gallery replaces the old game
+
+**What changed:** the drag-and-drop game is gone. In its place is the new gallery: a frosted header with the two study modes and your progress, one painting at a time on a warm wall under a soft overhead light, and a wall label beside it with the italic title, a short gold line, the artist, and the date. "Next painting" walks through a fairly dealt round of 8. Answering by movement arrives in M2, and Identify in M3; their tabs show a calm "opens soon" note for now.
+
+Removing drag and drop also removes three of the original bugs at their root: the score that could be replayed ("10 / 8"), the game not working on phones (phones don't support that kind of dragging), and the answer bins that were cut off. M2's answer buttons are the replacement, designed so each painting takes exactly one answer.
+
+**Where it lives:**
+- `src/App.jsx`: the frame. It reads the address, keeps the current round, and shows the header plus the right screen.
+- `src/components/`: the reusable pieces. `Header`, `ProgressTicks`, `ArtworkStage` (the painting, its light, and its shadow), `WallLabel`, and `NextButton`, each in a folder with its own `.css`.
+- `src/screens/SortScreen.jsx`: arranges those pieces for Sort mode and handles the Right Arrow shortcut and preloading the next painting.
+- `src/lib/round.js`: the rules for moving through a round.
+
+**Why the code is shaped this way:** components are like furniture and screens are like rooms. The same wall label will appear in Sort, Identify, and later Challenge, so it's built once and placed in each room. The round lives in `App.jsx`, above both the header and the screen, because both need it: the screen moves through it and the header shows how far along you are. Shared information belongs to the nearest common parent.
+
+**The design rhetoric:** look at a screen and notice where your eye goes. The painting first: it is the largest thing, lit from above, and casts the deepest shadow, as a framed work hung off a wall does. Then the title, because a thin gold line draws beneath it just after the painting arrives. Then the dark Next button, the heaviest shape on the right. Then, last, the one gold tick in the header that says where you are. Gold appears only where the eye should go next.
+
+**Words to know:**
+- **Component:** a reusable piece of interface with its own look and behavior, like the wall label.
+- **Responsive layout:** one design that rearranges itself for the screen it's on. Here, painting and label sit side by side on a laptop and stack on a phone.
+
+**Try it yourself:** in `src/styles/tokens.css`, change `--gold: #A9843F;` to a bright blue such as `#2F6FD6`, save, and watch the title line and progress tick change everywhere at once. Notice how loudly blue competes with the painting; that's why the accent is a quiet gold. Change it back.
+
+---
+
 ## October 24, 2026: Fair rounds, and addresses for each screen
 
 **What changed:** rounds are now dealt fairly. Every round of 8 includes all five movements, never repeats a painting, and every order is equally likely. Each screen also gets its own web address (`#/sort`, `#/identify`, `#/review`), so the back button and bookmarks work.
