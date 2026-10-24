@@ -146,6 +146,49 @@ Drafted facts to check (artist full names, years, and media are all marked `// V
 
 ---
 
+## October 24, 2026: The design system becomes code
+
+**What changed:** every color, font, size, spacing step, and timing from `DESIGN.md` now has a name in one file, `src/styles/tokens.css`. The leftover starter styles from the Vite template are gone, along with its sample images.
+
+**Where it lives:**
+- `src/styles/tokens.css`: the named values, each with a comment saying why it is what it is.
+- `src/styles/base.css`: rules for the whole page. The wall color, default fonts, the lapis focus ring, the frosted-glass surface, and the reduced-motion switch.
+- `index.html`: loads the three typefaces (only the weights in use) and names the page "Art History Study".
+
+**Why the code is shaped this way:** components never write a raw color like `#A9843F`. They write `var(--gold)`. If the gold ever needs adjusting, it changes in one line, and nothing can drift out of step. It also makes the stylesheets read like the design document.
+
+The original showed near-white headings on phones set to dark mode. The starter styles followed the phone's dark setting while the game's background stayed cream. The page now states plainly that it is a light design (`color-scheme: light`), and every color comes from the tokens.
+
+**The design rhetoric:** the focus ring is lapis blue, not gold. Gold leaf and ultramarine (ground lapis lazuli) were the two most precious materials in a painter's studio. Gold guides the eye; lapis marks the one thing keyboard users must always be able to find: where they are.
+
+**Contrast, measured** (WCAG AA asks for 4.5:1 for body text, 3:1 for large text and focus rings). Every pair passes:
+
+| Pair | Ratio |
+| --- | --- |
+| ink on wall | 13.4:1 |
+| ink on paper | 15.6:1 |
+| muted on wall | 5.7:1 |
+| muted on paper | 6.6:1 |
+| muted-2 on wall | 5.0:1 |
+| bronze on wall | 5.6:1 |
+| bronze on paper | 6.5:1 |
+| paper on ink | 15.6:1 |
+| brass-ink on brass | 6.0:1 |
+| lapis focus ring on wall | 7.5:1 |
+| Rococo ink on paper | 6.0:1 |
+| Neo-Classical ink on paper | 8.0:1 |
+| Romantic ink on paper | 8.9:1 |
+| Realist ink on paper | 7.7:1 |
+| Impressionist ink on paper | 5.9:1 |
+
+**Words to know:**
+- **CSS custom property (variable):** a named value in a stylesheet, written `--name` and used as `var(--name)`.
+- **Contrast ratio:** how much lighter one color is than another, from 1:1 (identical) to 21:1 (black on white). Higher is easier to read.
+
+**Try it yourself:** in `tokens.css`, change `--t-draw: 900ms;` to `3000ms` and watch the gold line under each title draw slowly. Timing is part of the design: too fast and nobody notices, too slow and it gets in the way. Change it back.
+
+---
+
 ## October 24, 2026: A branch for the rebuild, and the first automatic tests
 
 **What changed:** the rebuild now has its own line of work, the `study-redesign` branch, so the original game on `main` stays exactly as you left it. We also installed Vitest, a tool that runs small checking programs called tests, and wrote the first set: they check your painting data every time anyone runs `npm run test`.
