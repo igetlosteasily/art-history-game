@@ -4,6 +4,33 @@ A running log of what changed in the app and why, written for Chase. Newest entr
 
 ---
 
+## October 24, 2026: Fast images for phones
+
+**What changed:** a new command, `npm run images`, makes small web copies of every painting. Your originals total about 17 MB, and The Harvester alone is 4 MB, which means seconds of waiting per painting on a phone. The web copies are WebP files in two sizes. Phones usually download a copy around 100 to 200 KB.
+
+**Where it lives:**
+- `scripts/optimize-images.mjs`: the script. It reads `paintings.js`, so it knows every painting and its id.
+- `public/images/web/`: the copies it writes, named by id (`olympia-800.webp`, `olympia-1600.webp`). Your originals in `public/images/` are never changed.
+- `src/data/imageSizes.json`: the real width and height of each copy, written by the script. Never edit it by hand.
+- `src/lib/images.js`: one helper that turns a painting into everything an image tag needs.
+- `src/lib/images.test.js`: fails if a painting has no web copies, and says to run `npm run images`.
+
+**Why the code is shaped this way:** web pages use a feature called `srcset`, a list of the same image at different sizes. The browser looks at the screen and downloads only the copy it needs. The page also has to know each image's shape *before* it arrives, or the text below would jump down when the picture loads. That is why the script records every size in a file the app reads.
+
+We chose WebP over the newer AVIF format after testing both. AVIF files were about 40% smaller, but at that size they smoothed away visible brushstrokes. For a tool about looking closely at paintings, the brushwork matters more than the bytes.
+
+**The design rhetoric:** speed is part of respect for the work. A painting that arrives in pieces, or pushes the page around as it loads, interrupts the moment of looking before it starts.
+
+**Words to know:**
+- **Compression:** storing an image in fewer bytes by discarding detail the eye won't miss. "Quality 80" is how much to keep.
+- **Layout shift:** content jumping on the page while it loads. Reserving the image's shape in advance prevents it.
+
+**Try it yourself:** run `npm run images` and read what it prints: how many paintings, the total size, and any warnings. Then look in `public/images/web/` to see the files it made.
+
+**To verify (Chase):** three originals are small enough to look soft on a laptop: The Swing (500 pixels wide), The Secret Meeting (597), and Stack of Wheat (843). If you can find larger versions (museum websites often offer free high-resolution downloads), replace the files in `public/images/` with the same names and run `npm run images`.
+
+---
+
 ## October 24, 2026: The collection gets a proper catalogue
 
 **What changed:** your painting list moved to `src/data/paintings.js` and each entry grew from four facts to a full catalogue record: the artist's full and last name, year, medium, other titles students might fairly use, and a description of the image for blind and low-vision students. The five movements got a file of their own. A handful of typos in the descriptions were fixed (listed below).

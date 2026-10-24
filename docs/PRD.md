@@ -225,11 +225,13 @@ Pure functions, no AI, no network. Unit tests are required, including every exam
 
 ### 7.5 Images (`scripts/optimize-images.mjs`, `npm run images`)
 
-- Uses `sharp`. Reads the originals in `public/images/` (leave Chase's originals untouched), writes to `public/images/web/` with slugified filenames (no spaces or commas).
-- Two widths per image: 800 and 1600 pixels, WebP at quality around 80, plus a JPEG fallback at 1600.
-- Writes each image's real width and height into a generated `src/data/imageSizes.json` so the layout reserves space and does not jump while images load.
-- Target: every web image under 300 KB at 1600 wide; total for all 1600 versions well under 8 MB.
-- Use `srcset` and `sizes` so phones download the 800 version.
+- Uses `sharp`. Reads the originals in `public/images/` (Chase's originals stay untouched), writes to `public/images/web/` named by painting id (`olympia-1600.webp`). The generated files are committed, so deploys never run the image library.
+- Two sizes per image, each fitting inside a square: 800 by 800 and 1600 by 1600 pixels. A square box (rather than a fixed width) keeps tall portraits from becoming oversized files. No larger copy is written when the original already fits the smaller box.
+- WebP at quality 80, with no JPEG fallback: every current browser shows WebP, and a fallback would double the repository weight for no visible benefit. AVIF was measured (about 40% smaller) but rejected for now: at that size it smooths away brushwork, and it encodes about 20 times slower.
+- Writes each image's real dimensions and available widths into the generated `src/data/imageSizes.json`, so the layout reserves space and does not jump while images load. A test fails if any painting is missing its web images.
+- Budget: aim for each 1600 copy under 300 KB, and all largest copies together under 8 MB (currently 7.0 MB). The script warns about any copy over 300 KB rather than lowering quality for every image; heavily textured works (Summer's Day, Monet Painting, The Raft of the Medusa) sit around 400 to 460 KB, and phones usually download the 800 copy.
+- The script also warns about originals under 1000 pixels on their longest side, which look soft on sharp screens.
+- Use `srcset` and `sizes` so the browser picks the smallest copy that stays sharp.
 
 ### 7.6 Routing (`src/lib/useHashRoute.js`)
 
