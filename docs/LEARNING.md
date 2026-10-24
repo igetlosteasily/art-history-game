@@ -4,6 +4,29 @@ A running log of what changed in the app and why, written for Chase. Newest entr
 
 ---
 
+## October 24, 2026: Fair rounds, and addresses for each screen
+
+**What changed:** rounds are now dealt fairly. Every round of 8 includes all five movements, never repeats a painting, and every order is equally likely. Each screen also gets its own web address (`#/sort`, `#/identify`, `#/review`), so the back button and bookmarks work.
+
+**Where it lives:**
+- `src/lib/rounds.js`: `shuffle`, `dealRound`, and `dealFrom` (for reviewing missed paintings).
+- `src/lib/rounds.test.js`: deals 1,000 rounds and checks each one, and shuffles 60,000 times to check fairness.
+- `src/lib/useHashRoute.js`: reads the address and tells the app which screen to show.
+
+**Why the code is shaped this way:** the original game shuffled with a well-known shortcut: "sort the list, flipping a coin for every comparison." It looks random, but it isn't. We measured it on three items, shuffled 60,000 times. Each of the six possible orders should come up about 10,000 times. The shortcut left the list unchanged ("abc") 22,618 times and produced some orders only about 3,700 times. The replacement is the Fisher-Yates shuffle, a standard method since 1938, and the test checks every order lands within 5% of even.
+
+Dealing picks one painting from each movement first, then fills the rest. This matters most for Rococo: with only 2 of 32 paintings, an eight-painting round picked purely at random skips Rococo more than half the time (about 56%).
+
+The router is about 15 lines instead of a library. The part of an address after `#` never reaches the server, so it needs no setup on Vercel.
+
+**Words to know:**
+- **Algorithm:** a precise, step-by-step method for a task. Fisher-Yates is an algorithm for shuffling.
+- **Edge case:** an unusual situation code must still handle, like a round with fewer paintings than seats. The tests cover several.
+
+**Try it yourself:** run `npm run test:watch`, then in `rounds.js` change `random() * (i + 1)` to `random() * i`. The fairness test fails, because that one-character slip makes some orders impossible. Change it back and the tests pass again.
+
+---
+
 ## October 24, 2026: Fast images for phones
 
 **What changed:** a new command, `npm run images`, makes small web copies of every painting. Your originals total about 17 MB, and The Harvester alone is 4 MB, which means seconds of waiting per painting on a phone. The web copies are WebP files in two sizes. Phones usually download a copy around 100 to 200 KB.
