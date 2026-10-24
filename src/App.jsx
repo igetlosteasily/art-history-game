@@ -1,5 +1,15 @@
 import { useState } from "react";
-import paintings from "./paintings";
+import { movementById } from "./data/movements";
+import paintingData from "./data/paintings";
+
+// Temporary bridge: turns the new data shape back into the old one so the
+// original game keeps running until the new Sort screen replaces it.
+const paintings = paintingData.map((p) => ({
+  ...p,
+  title: `${p.title} by ${p.artist.last}`,
+  movement: movementById[p.movement].name,
+  image: `/images/${p.image.original}`,
+}));
 function getRandomPaintings(allPaintings, count) {
   const shuffled = [...allPaintings].sort(
     () => Math.random() - 0.5
